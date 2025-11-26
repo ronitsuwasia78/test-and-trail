@@ -133,7 +133,7 @@ Predictors: BMI, age, sodium intake, lifestyle, stress
 Not exactly a heart disease, but related to cardiovascular health/
 Predictors: heart disease history, blood pressure, lifestyle, glucose, BMI'''
 
-model_path = os.path.join(os.path.dirname(__file__), "model", "Heart_disease_pred.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "MOEDEL", "Heart_disease_pred.pkl")
 
 with open(model_path, "rb") as f:
     chatgpt = pickle.load(f)
