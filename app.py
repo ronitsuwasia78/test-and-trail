@@ -13,135 +13,132 @@ st.set_page_config(page_title="Heart Disease Prediction", page_icon="❤️", la
 # CSS — animated background + glass card styling
 # -------------------------
 CUSTOM_CSS = """
-/* full app animated gradient */
+/* full app animated gradient background with shimmer */
 .stApp {
-    background: linear-gradient(120deg, #050816 0%, #0b1220 35%, #0f766e 70%, #7c3aed 100%);
-    background-size: 300% 300%;
-    animation: gradientShift 18s ease infinite;
+    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+    background-size: 600% 600%;
+    animation: gradientAnimation 45s ease infinite;
     color: #e6eef8;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
 
-/* animated gradient */
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes gradientAnimation {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
-/* grain / noise texture overlay */
+/* subtle noise grain overlay */
 .stApp::before {
     content: "";
-    position: fixed;
-    inset: 0;
     pointer-events: none;
-    opacity: 0.13;
-    mix-blend-mode: soft-light;
-    background-image:
-      url("https://grainy-gradients.vercel.app/noise.svg");
-    background-size: 300px 300px;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.15;
     z-index: 0;
+    mix-blend-mode: soft-light;
 }
 
-/* soft blobs */
+/* floating colorful blobs with smooth animation */
 .blob {
     position: absolute;
-    width: 360px;
-    height: 360px;
     border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.18;
-    z-index: 0;
-    pointer-events: none;
-}
-.blob.one {
-    background: rgba(236, 252, 203, 0.25);
-    top: -120px;
-    left: -80px;
-}
-.blob.two {
-    background: rgba(244, 114, 182, 0.22);
-    bottom: -140px;
-    right: -100px;
+    filter: blur(120px);
+    opacity: 0.2;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 
-/* main glass card */
+.blob.one {
+    width: 400px;
+    height: 400px;
+    background: #ff0080;
+    top: -120px;
+    left: -100px;
+    animation-name: blobMoveOne;
+    animation-duration: 16s;
+}
+
+.blob.two {
+    width: 360px;
+    height: 360px;
+    background: #00bfff;
+    bottom: -130px;
+    right: -90px;
+    animation-name: blobMoveTwo;
+    animation-duration: 21s;
+}
+
+@keyframes blobMoveOne {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1);}
+    50% { transform: translateY(20px) translateX(30px) scale(1.1);}
+}
+
+@keyframes blobMoveTwo {
+    0%, 100% { transform: translateY(0) translateX(0) scale(1);}
+    50% { transform: translateY(-20px) translateX(-30px) scale(0.85);}
+}
+
+/* glass card with glowing edges and smooth shadow */
 .main-card {
     position: relative;
     z-index: 1;
-    padding: 28px 24px;
-    border-radius: 18px;
-    background: radial-gradient(circle at top left, rgba(248,250,252,0.12), rgba(15,23,42,0.92));
-    box-shadow:
-        0 18px 40px rgba(15,23,42,0.75),
-        0 0 0 1px rgba(148,163,184,0.22);
-    backdrop-filter: blur(14px) saturate(130%);
-    border: 1px solid rgba(148,163,184,0.28);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    padding: 28px 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7), 0 0 10px 1px #0ff;
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    transition: all 0.35s ease;
 }
 
-/* small hover lift when card is in focus area */
 .main-card:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        0 26px 60px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(248,250,252,0.25);
-    border-color: rgba(248,250,252,0.42);
+    box-shadow: 0 16px 60px rgba(0,255,255,0.9), 0 0 20px 3px #0ff;
+    transform: translateY(-10px) scale(1.03);
 }
 
-/* headings */
+/* header fonts */
 .app-title {
     font-size: 26px;
-    font-weight: 800;
-    letter-spacing: 0.4px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 5px #0ff;
 }
+
 .app-sub {
-    font-size: 13px;
-    color: rgba(226,232,240,0.82);
+    font-size: 14px;
+    color: rgba(230, 238, 248, 0.9);
 }
 
-/* buttons */
+/* modern gradient buttons with smooth hover */
 .stButton > button {
-    background: linear-gradient(120deg,#06b6d4,#22c55e);
+    background: linear-gradient(45deg, #00f, #0ff);
     color: white;
-    border-radius: 999px;
-    padding: 8px 18px;
-    font-weight: 600;
+    border-radius: 9999px;
+    padding: 10px 22px;
+    font-weight: 700;
     border: none;
-    box-shadow: 0 10px 30px rgba(15,23,42,0.7);
+    box-shadow: 0 8px 28px rgba(0, 255, 255, 0.7);
     cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    transition: all 0.3s ease;
 }
+
 .stButton > button:hover {
-    transform: translateY(-1px) scale(1.01);
-    box-shadow: 0 14px 40px rgba(15,23,42,0.9);
-    filter: brightness(1.05);
+    background: linear-gradient(45deg, #0ff, #00f);
+    box-shadow: 0 14px 44px rgba(0, 255, 255, 1);
+    transform: translateY(-2px) scale(1.05);
 }
 
-/* sidebar */
+/* sidebar with transparent dark blur */
 [data-testid="stSidebar"] {
-    background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
-    border-right: 1px solid rgba(148,163,184,0.35);
-    backdrop-filter: blur(18px) saturate(140%);
+    background: rgba(15, 23, 42, 0.85);
+    border-right: 1px solid rgba(0, 255, 255, 0.25);
+    backdrop-filter: blur(14px);
+    color: #aaddff;
 }
-
-/* sidebar text tweaks */
-[data-testid="stSidebar"] * {
-    color: #e5e7eb !important;
-}
-
-/* make selectbox & inputs a bit glassy */
-div[data-baseweb="select"],
-.stNumberInput input,
-.stTextInput input {
-    background: rgba(15,23,42,0.9);
-    border-radius: 999px;
-    border: 1px solid rgba(148,163,184,0.65);
-    color: #e5e7eb;
-}
-
 """
 
 st.markdown(f"<style>{CUSTOM_CSS}</style>", unsafe_allow_html=True)
