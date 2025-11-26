@@ -15,74 +15,133 @@ st.set_page_config(page_title="Heart Disease Prediction", page_icon="❤️", la
 CUSTOM_CSS = """
 /* full app animated gradient */
 .stApp {
-  background: linear-gradient(120deg, #071036 0%, #0f172a 30%, #0ea5a2 70%, #7c3aed 100%);
-  background-size: 300% 300%;
-  animation: gradientShift 18s ease infinite;
-  color: #e6eef8;
-  min-height: 100vh;
+    background: linear-gradient(120deg, #050816 0%, #0b1220 35%, #0f766e 70%, #7c3aed 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 18s ease infinite;
+    color: #e6eef8;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
 
-/* gradient animation */
+/* animated gradient */
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* floating soft blobs */
+/* grain / noise texture overlay */
+.stApp::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.13;
+    mix-blend-mode: soft-light;
+    background-image:
+      url("https://grainy-gradients.vercel.app/noise.svg");
+    background-size: 300px 300px;
+    z-index: 0;
+}
+
+/* soft blobs */
 .blob {
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.18;
-  z-index: 0;
-  pointer-events: none;
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.18;
+    z-index: 0;
+    pointer-events: none;
 }
-.blob.one { background: rgba(255,255,255,0.06); top: -100px; left: -80px; transform: rotate(10deg); }
-.blob.two { background: rgba(255,255,255,0.04); bottom: -140px; right: -100px; transform: rotate(-10deg); }
+.blob.one {
+    background: rgba(236, 252, 203, 0.25);
+    top: -120px;
+    left: -80px;
+}
+.blob.two {
+    background: rgba(244, 114, 182, 0.22);
+    bottom: -140px;
+    right: -100px;
+}
 
-/* glass card for content */
+/* main glass card */
 .main-card {
-  position: relative;
-  z-index: 1;
-  padding: 26px;
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    z-index: 1;
+    padding: 28px 24px;
+    border-radius: 18px;
+    background: radial-gradient(circle at top left, rgba(248,250,252,0.12), rgba(15,23,42,0.92));
+    box-shadow:
+        0 18px 40px rgba(15,23,42,0.75),
+        0 0 0 1px rgba(148,163,184,0.22);
+    backdrop-filter: blur(14px) saturate(130%);
+    border: 1px solid rgba(148,163,184,0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* header */
+/* small hover lift when card is in focus area */
+.main-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 26px 60px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(248,250,252,0.25);
+    border-color: rgba(248,250,252,0.42);
+}
+
+/* headings */
 .app-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
 }
 .app-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.78);
+    font-size: 13px;
+    color: rgba(226,232,240,0.82);
 }
 
-/* button style */
-.stButton>button {
-  background: linear-gradient(90deg,#06b6d4,#10b981);
-  color: white;
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-weight: 600;
-  border: none;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.4);
+/* buttons */
+.stButton > button {
+    background: linear-gradient(120deg,#06b6d4,#22c55e);
+    color: white;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.7);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
-.stButton>button:hover { transform: translateY(-1px); }
+.stButton > button:hover {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 14px 40px rgba(15,23,42,0.9);
+    filter: brightness(1.05);
+}
 
-/* sidebar subtle */
+/* sidebar */
 [data-testid="stSidebar"] {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-right: 1px solid rgba(255,255,255,0.03);
+    background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
+    border-right: 1px solid rgba(148,163,184,0.35);
+    backdrop-filter: blur(18px) saturate(140%);
 }
+
+/* sidebar text tweaks */
+[data-testid="stSidebar"] * {
+    color: #e5e7eb !important;
+}
+
+/* make selectbox & inputs a bit glassy */
+div[data-baseweb="select"],
+.stNumberInput input,
+.stTextInput input {
+    background: rgba(15,23,42,0.9);
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.65);
+    color: #e5e7eb;
+}
+
 """
 
 st.markdown(f"<style>{CUSTOM_CSS}</style>", unsafe_allow_html=True)
